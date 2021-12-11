@@ -1,0 +1,14 @@
+.testCss1 {
+  grid-template-areas:"a b"
+    "c d"
+
+     "c       d"   ;
+}
+
+.testCss2 {
+  color: lightblue;
+}
+
+.testCss3 {
+  grid-template-areas:"a b";
+}

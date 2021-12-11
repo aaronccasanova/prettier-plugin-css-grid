@@ -1,0 +1,33 @@
+{
+  "name": "prettier-plugin-css-grid",
+  "version": "0.0.1",
+  "description": "An opinionated css grid-templates-areas formatter.",
+  "main": "src/index.js",
+  "scripts": {
+    "dev-css": "prettier --plugin . dev/example.css",
+    "dev-scss": "prettier --plugin . dev/example.scss",
+    "dev-less": "prettier --plugin . dev/example.less",
+    "test": "node src/index.test.js"
+  },
+  "keywords": [
+    "prettier",
+    "plugin",
+    "css",
+    "grid",
+    "css-grid",
+    "grid-template-areas",
+    "grid-areas"
+  ],
+  "author": {
+    "name": "Aaron Casanova",
+    "email": "aaronccasanova@gmail.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "postcss": "^8.4.4",
+    "postcss-less": "^5.0.0",
+    "postcss-scss": "^4.0.2",
+    "postcss-value-parser": "^4.2.0",
+    "prettier": "^ 2.5.1"
+  }
+}
