@@ -29,5 +29,10 @@
     "postcss-scss": "^4.0.2",
     "postcss-value-parser": "^4.2.0",
     "prettier": "^ 2.5.1"
-  }
+  },
+  "files": [
+    "src/index.js",
+    "src/parser.js",
+    "src/formatGridAreas.js"
+  ]
 }
