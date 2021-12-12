@@ -31,8 +31,6 @@
     "prettier": "^2.5.1"
   },
   "files": [
-    "src/index.js",
-    "src/parser.js",
-    "src/formatGridAreas.js"
+    "src"
   ]
 }
