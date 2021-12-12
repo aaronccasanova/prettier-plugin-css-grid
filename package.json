@@ -28,7 +28,7 @@
     "postcss-less": "^5.0.0",
     "postcss-scss": "^4.0.2",
     "postcss-value-parser": "^4.2.0",
-    "prettier": "^ 2.5.1"
+    "prettier": "^2.5.1"
   },
   "files": [
     "src/index.js",

@@ -1,18 +1,14 @@
 const valueParser = require('postcss-value-parser')
 
-/**
- * @typedef {Object} FormatGridAreasOptions
- * @property {string} value
- * @property {number} startIndex
- * @property {string} quote
- * @property {string} tab
- */
+const skipValues = ['none', 'inherit', 'initial', 'revert', 'unset']
 
 /**
- * @param {FormatGridAreasOptions} options
- * @returns {string}
+ * @param {string} value
+ * @returns {string[]}
  */
-function formatGridAreas({ value, startIndex, quote, tab }) {
+function formatGridAreas(value, quote = '"') {
+  if (skipValues.includes(value)) return [value]
+
   /** @type {string[]} */
   const gridAreaRows = []
 
@@ -43,9 +39,6 @@ function formatGridAreas({ value, startIndex, quote, tab }) {
     })
   })
 
-  /** Starting indent for the declaration */
-  const indent = ' '.repeat(startIndex)
-
   /** @type {string[]} */
   const formattedGridAreaRows = []
 
@@ -59,7 +52,7 @@ function formatGridAreas({ value, startIndex, quote, tab }) {
       formattedGridAreaRows[y] +=
         // Add an indent and start quote to the first token
         // otherwise add a space to separate each column
-        (x === 0 ? indent + `${tab}${quote}` : ' ') +
+        (x === 0 ? quote : ' ') +
         // Add end padding based on the longest token in the current column
         token.padEnd(longestTokens[x], ' ') +
         // Add ending quote to the last token
@@ -67,7 +60,29 @@ function formatGridAreas({ value, startIndex, quote, tab }) {
     }
   }
 
-  return indent + '\n' + formattedGridAreaRows.join('\n')
+  return formattedGridAreaRows
 }
 
-module.exports = formatGridAreas
+/**
+ * @typedef {Object} GetGridTemplateAreasOptions
+ * @property {string} value
+ * @property {number} startColumn
+ * @property {string} quote
+ * @property {string} tab
+ */
+
+/**
+ * @param {GetGridTemplate} options
+ * @returns {string}
+ */
+function getGridTemplateAreas({ value, startColumn, quote, tab }) {
+  const gridTemplateAreas = formatGridAreas(value, quote)
+
+  const hasOneRow = gridTemplateAreas.length === 1
+  const separator = hasOneRow ? ' ' : '\n' + ' '.repeat(startColumn - 1) + tab
+
+  return (hasOneRow ? ' ' : separator) + gridTemplateAreas.join(separator)
+}
+
+module.exports.formatGridAreas = formatGridAreas
+module.exports.getGridTemplateAreas = getGridTemplateAreas
