@@ -7,7 +7,7 @@
     "dev-css": "prettier --plugin . dev/example.css",
     "dev-scss": "prettier --plugin . dev/example.scss",
     "dev-less": "prettier --plugin . dev/example.less",
-    "test": "node src/index.test.js"
+    "test": "node test/index.js"
   },
   "keywords": [
     "prettier",
