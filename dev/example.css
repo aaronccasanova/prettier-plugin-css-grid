@@ -2,7 +2,7 @@
   grid-template-areas:"a b"
     "c d"
 
-     "c       d"   ;
+     "e       f"   ;
 }
 
 .testCss2 {
@@ -11,4 +11,9 @@
 
 .testCss3 {
   grid-template-areas:"a b";
+}
+
+.testCss3 {
+  grid-template-areas:"a var(--test1)"
+    "var(--test2) b";
 }

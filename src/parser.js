@@ -3,10 +3,9 @@ const prettier = require('prettier/parser-postcss')
 const postcss = require('postcss')
 const postcssScss = require('postcss-scss')
 const postcssLess = require('postcss-less')
+const postcssGrid = require('postcss-css-grid')
 
-const { getGridTemplateAreas } = require('./formatter')
-
-const postcssParsers = {
+const syntaxes = {
   css: postcss,
   scss: postcssScss,
   less: postcssLess,
@@ -17,24 +16,16 @@ function getParser(lang) {
 
   return {
     ...prettierParser,
-    preprocess: (text, options) => {
-      const root = postcssParsers[lang].parse(text)
-
-      root.walkDecls((decl) => {
-        if (decl.prop !== 'grid-template-areas') return
-
-        const gridTemplateAreas = getGridTemplateAreas({
-          value: decl.value,
-          quote: options.singleQuote ? `'` : `"`,
-          startColumn: decl.source.start.column,
-          tab: options.useTabs ? '\t' : ' '.repeat(options.tabWidth || 2),
-        })
-
-        decl.value = gridTemplateAreas.trim()
-      })
-
-      return root.toString()
-    },
+    preprocess: (text, options) =>
+      postcss([
+        postcssGrid({
+          singleQuote: options.singleQuote,
+          useTabs: options.useTabs,
+          tabWidth: options.tabWidth,
+        }),
+      ])
+        .process(text, { syntax: syntaxes[lang] })
+        .toString(),
   }
 }
 
