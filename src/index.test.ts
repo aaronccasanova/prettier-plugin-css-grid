@@ -1,175 +1,109 @@
-import prettier from 'prettier'
+/**
+ * Note: Tests are intentionally minimal as extensive testing
+ * is done in the `format-css-grid` package:
+ * https://github.com/aaronccasanova/format-css-grid/blob/main/src/grid-template-areas.test.ts
+ */
 
-function assertStrictEqual(message: string, a: string, b: string) {
-  it(message, () => {
-    const formatted = prettier.format(a, {
+import prettier from 'prettier'
+import prettierCssGrid from './index'
+
+function assert(name: string, actual: string, expected: string, options = {}) {
+  it(name, () => {
+    const formatted = prettier.format(actual, {
       parser: 'css',
-      plugins: ['.'],
+      plugins: [prettierCssGrid],
+      ...options,
     })
 
-    expect(formatted).toBe(b)
+    expect(formatted.trim()).toBe(expected.trim())
   })
 }
 
-assertStrictEqual(
-  'Assertion 1',
+assert(
+  'Basic alignment',
   `
 .test {
-  grid-template-areas: "a b b"
-                       "a c    d";
+  grid-template-areas: "a b"
+                       "c d";
 }`,
   `
 .test {
   grid-template-areas:
-    "a b b"
-    "a c d";
+    "a b"
+    "c d";
 }`,
 )
 
-// assertStrictEqual(
-//   'Assertion 2',
-//   `
-// .test {
-//   grid-template-areas:
-//       "one two two three three three"
-//       "two two three three three one"
-//       "three three three one two two";
-// }`,
-//   `
-// .test {
-//   grid-template-areas:
-//     "one   two   two   three three three"
-//     "two   two   three three three one  "
-//     "three three three one   two   two  ";
-// }`,
-// )
+assert(
+  'Format rows and columns',
+  `
+.test {
+  grid-template-areas: "aa b"
+                       "c dd";
+}`,
+  `
+.test {
+  grid-template-areas:
+    "aa b "
+    "c  dd";
+}`,
+)
 
-// assertStrictEqual(
-//   'Assertion 3',
-//   `
-// .test {
-//   grid-template-areas: "one two two three three three"
-//                       "two two three three three one"
-//                       "three three three one two two";
-// }`,
-//   `
-// .test {
-//   grid-template-areas:
-//     "one   two   two   three three three"
-//     "two   two   three three three one  "
-//     "three three three one   two   two  ";
-// }`,
-// )
+assert(
+  'Add null cell tokens',
+  `
+.test {
+  grid-template-areas:
+      "a b c"
+      "d e"
+      "f";
+}`,
+  `
+.test {
+  grid-template-areas:
+    "a b c"
+    "d e ."
+    "f . .";
+}`,
+)
 
-// assertStrictEqual(
-//   'Assertion 4',
-//   `
-// .test {
-//   grid-template-areas:
-//      "one two two three three three"
-//      "two two three three three one"
-//      "three three three one two two";
-// }`,
-//   `
-// .test {
-//   grid-template-areas:
-//     "one   two   two   three three three"
-//     "two   two   three three three one  "
-//     "three three three one   two   two  ";
-// }`,
-// )
+assert(
+  'Persist and format comments',
+  `
+.test {
+  grid-template-areas:
+    /* comment */
+    "a b"
+    /* comment */ "c d" /* comment */
+    "e f";
+}`,
+  `
+.test {
+  grid-template-areas:
+    /* comment */
+    "a b"
+    /* comment */
+    "c d"
+    /* comment */
+    "e f";
+}`,
+)
 
-// assertStrictEqual(
-//   'Assertion 5',
-//   `
-// .test {
-//   grid-template-areas:
-//       "one two two three three three"
-//       "two two three three three one"
-//       "three three three one two two";
-// }`,
-//   `
-// .test {
-//   grid-template-areas:
-//     "one   two   two   three three three"
-//     "two   two   three three three one  "
-//     "three three three one   two   two  ";
-// }`,
-// )
-
-// assertStrictEqual(
-//   'Assertion 6',
-//   `
-// .test {
-//   grid-template-areas:
-//   "three three three"
-//   "two two"
-//   "one";
-// }`,
-//   `
-// .test {
-//   grid-template-areas:
-//     "three three three"
-//     "two   two   .    "
-//     "one   .     .    ";
-// }`,
-// )
-
-// assertStrictEqual(
-//   'Assertion 7',
-//   `
-// .test {
-//   grid-template-areas: "one" "two two" "three three three";
-// }`,
-//   `
-// .test {
-//   grid-template-areas:
-//     "one   .     .    "
-//     "two   two   .    "
-//     "three three three";
-// }`,
-// )
-
-// assertStrictEqual(
-//   'Assertion 8 - Single quotes',
-//   `
-// .test {
-//   grid-template-areas:
-//   'three three three'
-//   'two two'
-//   'one';
-// }`,
-//   `
-// .test {
-//   grid-template-areas:
-//     'three three three'
-//     'two   two   .    '
-//     'one   .     .    ';
-// }`,
-// )
-
-// assertStrictEqual(
-//   'Assertion 9 - Comments',
-//   `
-// .test {
-//   grid-template-areas:
-//     "one two three"
-//     /* what if there is a comment */
-//     "two three one"
-//     /* what if there is a comment */
-//     // what about a non valid css comment
-//     "three one two";
-// }`,
-//   `
-// .test {
-//   grid-template-areas:
-//     "one   two   three"
-//     "two   three one  "
-//     "three one   two  ";
-// }`,
-// )
-
-// assert.throws(
-//   () => prettier.format('/*/*/* x', { parser: 'css', plugins: ['.'] }),
-//   'surfaces errors to Prettier',
-// )
+assert(
+  'Apply prettier options',
+  `
+.test {
+  grid-template-areas:
+    "a b"
+    "c d";
+}`,
+  `
+.test {
+  grid-template-areas:
+    'a b'
+    'c d';
+}`,
+  {
+    singleQuote: true,
+  },
+)

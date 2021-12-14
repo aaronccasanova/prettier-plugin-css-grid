@@ -23,7 +23,7 @@
     "dist"
   ],
   "scripts": {
-    "dev-css": "prettier --plugin ./dist/main.js dev/example.css",
+    "dev-css": "prettier --plugin . dev/example.css",
     "dev-css2": "prettier --plugin . dev/example2.css",
     "dev-scss": "prettier --plugin . dev/example.scss",
     "dev-less": "prettier --plugin . dev/example.less",

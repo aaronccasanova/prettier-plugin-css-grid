@@ -18,8 +18,8 @@ function getParser(lang: Lang) {
 
   const parser: typeof prettierParser = {
     ...prettierParser,
-    preprocess: (text, options) => {
-      const root = postcss([
+    preprocess: (text, options) =>
+      postcss([
         postcssGrid({
           singleQuote: options.singleQuote,
           useTabs: options.useTabs,
@@ -27,10 +27,7 @@ function getParser(lang: Lang) {
         }),
       ])
         .process(text, { syntax: syntaxes[lang] })
-        .toString()
-
-      return root
-    },
+        .toString(),
   }
 
   return parser
