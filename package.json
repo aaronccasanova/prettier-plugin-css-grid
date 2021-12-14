@@ -1,6 +1,6 @@
 {
   "name": "prettier-plugin-css-grid",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "An opinionated CSS Grid formatter.",
   "author": "Aaron Casanova",
   "license": "MIT",
