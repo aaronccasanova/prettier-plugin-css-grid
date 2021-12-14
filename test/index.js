@@ -4,7 +4,7 @@ const assert = require('assert')
 function assertStrictEqual(message, a, b) {
   assert.strictEqual(
     prettier.format(a.trim(), { parser: 'scss', plugins: ['.'] }),
-    b.trim() + '\n',
+    `${b.trim()}\n`,
     message,
   )
 }
