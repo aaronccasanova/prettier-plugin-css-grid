@@ -1,3 +1,14 @@
 {
-  "extends": "@tsconfig/node12/tsconfig.json"
+  "extends": "@tsconfig/node12/tsconfig.json",
+  "compilerOptions": {
+    // Options derived from the following resources:
+    // - https://www.typescriptlang.org/docs/handbook/declaration-files/dts-from-js.html#tsconfig
+    // - https://github.com/rollup/plugins/tree/master/packages/typescript/#declaration-output-with-outputfile
+    "declaration": true,
+    "declarationDir": ".",
+    "declarationMap": true,
+    "outDir": "dist"
+  },
+  "include": ["src"],
+  "exclude": ["dist"]
 }
