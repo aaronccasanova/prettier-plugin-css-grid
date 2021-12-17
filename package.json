@@ -15,10 +15,8 @@
     "url": "https://github.com/aaronccasanova/prettier-plugin-css-grid/issues"
   },
   "homepage": "https://github.com/aaronccasanova/prettier-plugin-css-grid#readme",
-  "source": "src/index.ts",
-  "main": "dist/main.js",
-  "module": "dist/module.js",
-  "types": "dist/types.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
@@ -27,12 +25,11 @@
     "dev-css2": "prettier --plugin . dev/example2.css",
     "dev-scss": "prettier --plugin . dev/example.scss",
     "dev-less": "prettier --plugin . dev/example.less",
-    "watch": "parcel watch",
-    "build": "parcel build",
+    "build": "rollup -c",
     "test": "jest",
     "lint": "eslint src/**/*.ts",
-    "check": "tsc --noEmit",
-    "ci": "npm run build && npm run test && npm run lint && npm run check"
+    "type-check": "tsc --noEmit",
+    "ci": "npm run build && npm run test && npm run lint && npm run type-check"
   },
   "keywords": [
     "prettier",
@@ -48,14 +45,14 @@
     "postcss": "^8.4.4",
     "postcss-css-grid": "^0.0.2",
     "postcss-less": "^5.0.0",
-    "postcss-scss": "^4.0.2",
-    "prettier": "^2.5.1"
+    "postcss-scss": "^4.0.2"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.16.4",
     "@babel/preset-typescript": "^7.16.0",
-    "@parcel/packager-ts": "^2.0.1",
-    "@parcel/transformer-typescript-types": "^2.0.1",
+    "@rollup/plugin-commonjs": "^21.0.1",
+    "@rollup/plugin-node-resolve": "^13.1.1",
+    "@rollup/plugin-typescript": "^8.3.0",
     "@tsconfig/node12": "^1.0.9",
     "@types/jest": "^27.0.3",
     "@typescript-eslint/eslint-plugin": "^5.6.0",
@@ -65,8 +62,11 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.3",
     "jest": "^27.4.4",
-    "parcel": "^2.0.1",
-    "typescript": "^4.5.3"
+    "rollup": "^2.61.1",
+    "typescript": "^4.5.4"
+  },
+  "peerDependencies": {
+    "prettier": "^2.0.0"
   },
   "jest": {
     "transform": {
